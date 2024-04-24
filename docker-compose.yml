@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13.5
+    container_name: new_project_postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=new_project_db
+    volumes:
+      - new_project_postgres_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - '5433:5432'
+    networks:
+      - new_project_network
+
+  redis:
+    container_name: new_project_redis
+    image: 'redis:latest'
+    restart: always
+    ports:
+      - '6380:6379'
+    networks:
+      - new_project_network
+
+networks:
+  new_project_network:
+    driver: bridge
+
+volumes:
+  new_project_postgres_data:
+    name: new_project_db_data
